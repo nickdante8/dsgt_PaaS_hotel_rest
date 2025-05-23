@@ -5,6 +5,7 @@ name: Build and deploy systemd app to Azure Web App
 env:
   AZURE_WEBAPP_NAME: dsgt_PaaS_hotel_rest    # set this to the name of your Azure Web App
   AZURE_WEBAPP_JAR_FOLDER: hotel_rest_app    # set folder name where to upload jar file to
+  AZURE_WEBAPP_SERVICE_NAME: springboot_hotel.service # Service name for jar file
   JAVA_VERSION: '17'                  # set this to the Java version to use
   DISTRIBUTION: temurin                  # set this to the Java distribution
 
@@ -64,7 +65,7 @@ jobs:
 
       - name: Create systemd file
         run: |
-          cat <<EOF > springboot.service
+          cat <<EOF > ${{ env.AZURE_WEBAPP_SERVICE_NAME }}
           [Unit]
           Description=Spring Boot Application
           After=network.target
@@ -84,7 +85,7 @@ jobs:
           EOF
 
       - name: Check created file
-        run: cat springboot.service
+        run: cat ${{ env.AZURE_WEBAPP_SERVICE_NAME }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -94,7 +95,7 @@ jobs:
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
           port: 22
-          source: "springboot.service"
+          source: "${{ env.AZURE_WEBAPP_SERVICE_NAME }}"
           target: "/home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}"
 
       - name: Move and reload service on VM
@@ -104,6 +105,6 @@ jobs:
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
           script: |
-            sudo mv /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/springboot.service /etc/systemd/system/springboot.service
+            sudo mv /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/${{ env.AZURE_WEBAPP_SERVICE_NAME }} /etc/systemd/system/${{ env.AZURE_WEBAPP_SERVICE_NAME }}
             sudo systemctl daemon-reload
-            sudo systemctl enable springboot
+            sudo systemctl enable ${{ env.AZURE_WEBAPP_SERVICE_NAME }}

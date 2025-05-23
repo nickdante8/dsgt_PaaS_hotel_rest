@@ -1,23 +1,6 @@
-# This workflow will build and push a Java application to an Azure Web App when a commit is pushed to your default branch.
-#
-# This workflow assumes you have already created the target Azure App Service web app.
-# For instructions see https://docs.microsoft.com/en-us/azure/app-service/quickstart-java?tabs=javase&pivots=platform-linux
-#
-# To configure this workflow:
-#
-# 1. Download the Publish Profile for your Azure Web App. You can download this file from the Overview page of your Web App in the Azure Portal.
-#    For more information: https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel#generate-deployment-credentials
-#
-# 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
-#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
-#
-# 3. Change the value for the AZURE_WEBAPP_NAME. Optionally, change the JAVA_VERSION environment variable below.
-#
-# For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
-# For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
+# This workflow will build a Java application and will create a service systemd on Azure VM.
 
-name: Build and deploy JAR app to Azure Web App
+name: Build and deploy systemd app to Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: dsgt_PaaS_hotel_rest    # set this to the name of your Azure Web App
@@ -26,8 +9,6 @@ env:
   DISTRIBUTION: temurin                  # set this to the Java distribution
 
 on:
-  push:
-    branches: [ "master" ]
   workflow_dispatch:
 
 permissions:
@@ -81,6 +62,30 @@ jobs:
         id: jarname
         run: echo "JAR_NAME=$(ls ${{ env.AZURE_WEBAPP_NAME }}*.jar)" >> $GITHUB_ENV
 
+      - name: Create systemd file
+        run: |
+          cat <<EOF > springboot.service
+          [Unit]
+          Description=Spring Boot Application
+          After=network.target
+
+          [Service]
+          User=${{ secrets.AZURE_VM_USER }}
+          ExecStart=/usr/bin/java -jar /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/${{ env.JAR_NAME }}
+          SuccessExitStatus=143
+          Restart=on-failure
+          RestartSec=10
+          StandardOutput=journal
+          StandardError=journal
+          WorkingDirectory=/home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+      - name: Check created file
+        run: cat springboot.service
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: appleboy/scp-action@v0.1.7
@@ -89,22 +94,16 @@ jobs:
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
           port: 22
-          source: "${{ env.JAR_NAME }}"
+          source: "springboot.service"
           target: "/home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}"
 
-      - name: Restart app on Azure VM
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Move and reload service on VM
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.AZURE_VM_HOST }}
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
-          port: 22
           script: |
-            FILE="/etc/systemd/system/springboot.service"
-            if [ -f "$FILE" ]; then
-              echo "✅ File exists. Restarting service..."
-              sudo systemctl restart springboot
-            else
-              echo "❌ File $FILE not found. Failing workflow."
-              exit 1
-            fi
+            sudo mv /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/springboot.service /etc/systemd/system/springboot.service
+            sudo systemctl daemon-reload
+            sudo systemctl enable springboot

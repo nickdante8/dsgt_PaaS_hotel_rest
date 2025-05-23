@@ -1,0 +1,109 @@
+# This workflow will build a Java application and will create a service systemd on Azure VM.
+
+name: Build and deploy systemd app to Azure Web App
+
+env:
+  AZURE_WEBAPP_NAME: dsgt_PaaS_hotel_rest    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_JAR_FOLDER: hotel_rest_app    # set folder name where to upload jar file to
+  JAVA_VERSION: '17'                  # set this to the Java version to use
+  DISTRIBUTION: temurin                  # set this to the Java distribution
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.DISTRIBUTION }}
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: List target directory
+        run: ls -l target
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/${{ env.AZURE_WEBAPP_NAME }}*.jar'
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: List directory
+        run: ls -l
+      
+      - name: Get jar name
+        id: jarname
+        run: echo "JAR_NAME=$(ls ${{ env.AZURE_WEBAPP_NAME }}*.jar)" >> $GITHUB_ENV
+
+      - name: Create systemd file
+        run: |
+          cat <<EOF > springboot.service
+          [Unit]
+          Description=Spring Boot Application
+          After=network.target
+
+          [Service]
+          User=${{ secrets.AZURE_VM_USER }}
+          ExecStart=/usr/bin/java -jar /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/${{ env.JAR_NAME }}
+          SuccessExitStatus=143
+          Restart=on-failure
+          RestartSec=10
+          StandardOutput=journal
+          StandardError=journal
+          WorkingDirectory=/home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+      - name: Check created file
+        run: cat springboot.service
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
+          port: 22
+          source: "springboot.service"
+          target: "/home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}"
+
+      - name: Move and reload service on VM
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_VM_PRIVATE_KEY }}
+          script: |
+            sudo mv /home/${{ secrets.AZURE_VM_USER }}/${{ env.AZURE_WEBAPP_JAR_FOLDER }}/springboot.service /etc/systemd/system/springboot.service
+            sudo systemctl daemon-reload
+            sudo systemctl enable springboot

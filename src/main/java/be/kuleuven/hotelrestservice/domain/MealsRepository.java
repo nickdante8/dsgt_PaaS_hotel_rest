@@ -4,7 +4,7 @@ import be.kuleuven.hotelrestservice.exceptions.MealNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.*;
 
 @Component

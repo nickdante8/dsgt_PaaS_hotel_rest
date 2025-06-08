@@ -1,0 +1,34 @@
+# Create docker compose file for local DB
+name: travel-hotels-db
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04  # Stable image
+    container_name: hotels_db_mssql
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Hotels_Password1!"
+      MSSQL_PID: "Developer"
+    ports:
+      - "10433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+      - ./init-db:/init-db
+    command: /bin/bash -c "/init-db/init-db.sh && tail -f /init-db/init-db.log"
+
+  flyway:
+    image: flyway/flyway:latest
+    container_name: hotels_flyway_migrations
+    depends_on:
+      - sqlserver
+    environment:
+      FLYWAY_URL: "jdbc:sqlserver://sqlserver:1433;databaseName=hotels_db;encrypt=true;trustServerCertificate=true"
+      FLYWAY_USER: "sa"
+      FLYWAY_PASSWORD: "Hotels_Password1!"
+      FLYWAY_BASELINE_ON_MIGRATE: "true"
+    volumes:
+      - ./flyway/sql:/flyway/sql  # Place your migrations here
+    command: -connectRetries=10 migrate
+
+volumes:
+  sqlserver-data:

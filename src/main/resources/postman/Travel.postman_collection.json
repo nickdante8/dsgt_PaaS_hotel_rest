@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "861b1019-dfce-4b7a-b788-35facbcd3548",
+		"name": "Travel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8207181"
+	},
+	"item": [
+		{
+			"name": "Flight",
+			"item": [
+				{
+					"name": "Sign_Up",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Flight-URL}}/api/auth/signup",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign_In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token)\r",
+									"{\r",
+									"    pm.environment.set('token_flight', jsonData.token);\r",
+									"    console.log(\"Token received:\", jsonData.token);\r",
+									"    console.log(\"Environmen variable:\", pm.environment.get('token_flight'));\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"    console.warn(\"Token not found in response:\", jsonData);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"password\": \"test12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Flight-URL}}/api/auth/signin",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Flight-URL}}/restrpc/meals",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"restrpc",
+								"meals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flights",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Flight-URL}}/api/flights",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token_flight}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Hotel",
+			"item": [
+				{
+					"name": "Sign_Up",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Hotel-URL}}/api/auth/signup",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign_In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.token)\r",
+									"{\r",
+									"    pm.environment.set('token_hotel', jsonData.token);\r",
+									"    console.log(\"Token received:\", jsonData.token);\r",
+									"    console.log(\"Environmen variable:\", pm.environment.get('token_hotel'));\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"    console.warn(\"Token not found in response:\", jsonData);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"password\": \"test12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Hotel-URL}}/api/auth/signin",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Hotel-URL}}/restrpc/meals",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"restrpc",
+								"meals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hotels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Hotel-URL}}/api/hotels",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"hotels"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token_hotel}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Flight-URL",
+			"value": "http://localhost:8090",
+			"type": "default"
+		},
+		{
+			"key": "Hotel-URL",
+			"value": "http://localhost:8100",
+			"type": "string"
+		},
+		{
+			"key": "token_flight",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token_hotel",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -26,8 +26,10 @@ project/src/main/resources
 │ │ └── V1__init.sql # Sample migration file
 │ │ └── V2__init.sql # Sample migration file
 │ │ └── V3__init.sql # Sample migration file
+│ │ └── ............ # Sample migration file
 │ │── init-db/
-│ │ └── init-db.sh # Bash script to create db if it doesn't exist
+│ │ └── init-db.sh  # Bash script to create db if it doesn't exist
+│ │ └── init-db.log # Log file to store execution logs when starting script
 │ │── docker-compose.yml # Defines services: sqlserver, flyway
 │ └── docker-start.sh # Bash script to create and run containers in sequence
 ├── postman/
@@ -42,6 +44,9 @@ project/src/main/resources
 ### 1️⃣ Build and Start Containers
 
 ```bash
+dos2unix ./src/main/resources/docker-db/init-db/init-db.sh
+dos2unix ./src/main/resources/docker-db/docker-start.sh
+chmod +x ./src/main/resources/docker-db/init-db/init-db.sh
 chmod +x ./src/main/resources/docker-db/docker-start.sh
 ./src/main/resources/docker-db/docker-start.sh
 ```

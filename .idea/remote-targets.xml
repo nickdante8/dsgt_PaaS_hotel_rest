@@ -18,6 +18,22 @@
           </config>
         </ContributedStateBase>
       </target>
+      <target name="WSL2" type="wsl" uuid="ead6b5e2-f827-4ebb-b4ac-1d672e345d5d">
+        <config>
+          <option name="distributionMsId" value="Ubuntu" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="$PROJECT_DIR$/../../../usr/lib/jvm/java-17-openjdk-amd64" />
+          </config>
+        </ContributedStateBase>
+        <ContributedStateBase type="MavenRuntime">
+          <config>
+            <option name="homePath" value="/usr/share/maven" />
+            <option name="versionString" value="3.8.7" />
+          </config>
+        </ContributedStateBase>
+      </target>
     </targets>
   </component>
 </project>

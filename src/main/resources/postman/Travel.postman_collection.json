@@ -10,6 +10,42 @@
 			"name": "Flight",
 			"item": [
 				{
+					"name": "Flights By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Flight-URL}}/restrpc/meals",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"restrpc",
+								"meals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flights",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Flight-URL}}/api/flights",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Sign_Up",
 					"request": {
 						"auth": {
@@ -89,42 +125,6 @@
 								"api",
 								"auth",
 								"signin"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Flight-URL}}/restrpc/meals",
-							"host": [
-								"{{Flight-URL}}"
-							],
-							"path": [
-								"restrpc",
-								"meals"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Flights",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Flight-URL}}/api/flights",
-							"host": [
-								"{{Flight-URL}}"
-							],
-							"path": [
-								"api",
-								"flights"
 							]
 						}
 					},
@@ -209,9 +209,9 @@
 									"\r",
 									"if (jsonData.token)\r",
 									"{\r",
-									"    pm.environment.set('token_hotel', jsonData.token);\r",
+									"    pm.collectionVariables.set('token_hotel', jsonData.token);\r",
 									"    console.log(\"Token received:\", jsonData.token);\r",
-									"    console.log(\"Environmen variable:\", pm.environment.get('token_hotel'));\r",
+									"    console.log(\"Environmen variable:\", pm.collectionVariables.get('token_hotel'));\r",
 									"}\r",
 									"else\r",
 									"{\r",
@@ -253,18 +253,19 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Hotels By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Hotel-URL}}/restrpc/meals",
+							"raw": "{{Hotel-URL}}/api/hotels/HT001",
 							"host": [
 								"{{Hotel-URL}}"
 							],
 							"path": [
-								"restrpc",
-								"meals"
+								"api",
+								"hotels",
+								"HT001"
 							]
 						}
 					},
@@ -276,13 +277,43 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels",
+							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&departureDate=\"2025-08-05\"&arrivalDate=\"2025-08-05\"&roomAdult0=2&roomAdul1=1&adults=4&children=1",
 							"host": [
 								"{{Hotel-URL}}"
 							],
 							"path": [
 								"api",
 								"hotels"
+							],
+							"query": [
+								{
+									"key": "arrivalLocation",
+									"value": "\"New York\""
+								},
+								{
+									"key": "departureDate",
+									"value": "\"2025-08-05\""
+								},
+								{
+									"key": "arrivalDate",
+									"value": "\"2025-08-05\""
+								},
+								{
+									"key": "roomAdult0",
+									"value": "2"
+								},
+								{
+									"key": "roomAdul1",
+									"value": "1"
+								},
+								{
+									"key": "adults",
+									"value": "4"
+								},
+								{
+									"key": "children",
+									"value": "1"
+								}
 							]
 						}
 					},

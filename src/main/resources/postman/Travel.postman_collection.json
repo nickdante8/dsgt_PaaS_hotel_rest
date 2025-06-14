@@ -10,18 +10,19 @@
 			"name": "Flight",
 			"item": [
 				{
-					"name": "Flights By Id",
+					"name": "Flight By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Flight-URL}}/restrpc/meals",
+							"raw": "{{Flight-URL}}/api/flights/FL011",
 							"host": [
 								"{{Flight-URL}}"
 							],
 							"path": [
-								"restrpc",
-								"meals"
+								"api",
+								"flights",
+								"FL011"
 							]
 						}
 					},
@@ -29,17 +30,130 @@
 				},
 				{
 					"name": "Flights",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{Flight-URL}}/api/flights",
+							"raw": "{{Flight-URL}}/api/flights?departureLocation=\"Brussels\"&arrivalLocation=\"New York\"&departureDate=2025-08-05&returnDate=2025-08-15&adultCount=2&childCount=1",
 							"host": [
 								"{{Flight-URL}}"
 							],
 							"path": [
 								"api",
 								"flights"
+							],
+							"query": [
+								{
+									"key": "departureLocation",
+									"value": "\"Brussels\""
+								},
+								{
+									"key": "arrivalLocation",
+									"value": "\"New York\""
+								},
+								{
+									"key": "departureDate",
+									"value": "2025-08-05"
+								},
+								{
+									"key": "returnDate",
+									"value": "2025-08-15"
+								},
+								{
+									"key": "adultCount",
+									"value": "2"
+								},
+								{
+									"key": "childCount",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"flightArrivalId\": \"FL012\",\r\n  \"flightDepartureId\": \"FL011\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 1\r\n//   \"passangers\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1978-01-30\",\r\n//       \"seat\": \"1A\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Jullieta\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1980-01-15\",\r\n//       \"seat\": \"1B\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_32KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Junior\",\r\n//       \"secondName\": \"Constantin\",\r\n//       \"birthDate\": \"2000-05-22\",\r\n//       \"seat\": \"1C\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Flight-URL}}/api/bookings",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Flight-URL}}/api/bookings/BK001",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"BK001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking Cancel By Id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Flight-URL}}/api/bookings/cancel/BK001",
+							"host": [
+								"{{Flight-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"cancel",
+								"BK001"
 							]
 						}
 					},
@@ -87,9 +201,9 @@
 									"\r",
 									"if (jsonData.token)\r",
 									"{\r",
-									"    pm.environment.set('token_flight', jsonData.token);\r",
+									"    pm.collectionVariables.set('token_flight', jsonData.token);\r",
 									"    console.log(\"Token received:\", jsonData.token);\r",
-									"    console.log(\"Environmen variable:\", pm.environment.get('token_flight'));\r",
+									"    console.log(\"Environmen variable:\", pm.collectionVariables.get('token_flight'));\r",
 									"}\r",
 									"else\r",
 									"{\r",
@@ -109,7 +223,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"password\": \"test12345678\"\r\n}",
+							"raw": "{\r\n    \"username\": \"tripBroker\",\r\n    \"password\": \"test12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -177,7 +291,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
+							"raw": "{\r\n    \"username\": \"tripBroker\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,7 +367,7 @@
 					"response": []
 				},
 				{
-					"name": "Hotels By Id",
+					"name": "Hotel By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -277,7 +391,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&departureDate=\"2025-08-05\"&arrivalDate=\"2025-08-05\"&roomAdult0=2&roomAdul1=1&adults=4&children=1",
+							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&checkInDate=\"2025-08-05\"&checkOutDate=\"2025-08-05\"&roomAdult0=2&roomAdul1=1&adults=4&children=1",
 							"host": [
 								"{{Hotel-URL}}"
 							],
@@ -291,11 +405,11 @@
 									"value": "\"New York\""
 								},
 								{
-									"key": "departureDate",
+									"key": "checkInDate",
 									"value": "\"2025-08-05\""
 								},
 								{
-									"key": "arrivalDate",
+									"key": "checkOutDate",
 									"value": "\"2025-08-05\""
 								},
 								{

@@ -48,6 +48,29 @@ jobs:
           distribution: ${{ env.DISTRIBUTION }}
           cache: 'maven'
 
+      - name: Create configuration file for DB
+        run: |
+          cat <<EOF > database.properties
+          # ====================
+          # JPA for DB configuration
+          # ====================
+          spring.jpa.database-platform=org.hibernate.dialect.SQLServerDialect
+          spring.datasource.url=${{ secrets.AZURE_WEBAPP_DB_URL }}
+          spring.datasource.username=${{ secrets.AZURE_WEBAPP_DB_USERNAME }}
+          spring.datasource.password=${{ secrets.AZURE_WEBAPP_DB_PASSWORD }}
+          spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+          spring.jpa.hibernate.ddl-auto=update
+          spring.jpa.show-sql=true
+          EOF
+
+      - name: Update configuration files before build
+        run: mv database.properties ./src/main/resources
+
+      - name: Check created file
+        run: |
+          ls -la ./src/main/resources
+          cat ./src/main/resources/database.properties
+
       - name: Build with Maven
         run: mvn clean package
 

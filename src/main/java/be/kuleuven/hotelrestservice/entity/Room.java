@@ -18,10 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "rooms")
 public class Room extends AbstractEntity {
-    @NotBlank
-    @Column(name = "id")
-    private Integer roomId;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private ERoomType type;

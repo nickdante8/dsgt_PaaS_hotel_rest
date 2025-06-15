@@ -5,7 +5,7 @@
 
 package be.kuleuven.hotelrestservice.entity;
 import be.kuleuven.hotelrestservice.enums.EReservationStatus;
-
+import be.kuleuven.hotelrestservice.enums.ERoomType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -57,6 +57,10 @@ public class Reservation extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private EReservationStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "room_type")
+    private ERoomType roomType;
 
     @ManyToOne
     @JoinColumn(name="hotel_id", referencedColumnName = "id")

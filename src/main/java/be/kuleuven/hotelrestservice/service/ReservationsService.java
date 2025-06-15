@@ -4,9 +4,11 @@ import be.kuleuven.hotelrestservice.data.reservation.ReservationRequest;
 import be.kuleuven.hotelrestservice.data.reservation.ReservationResponseDto;
 import be.kuleuven.hotelrestservice.data.reservation.ReservationResponsePatch;
 import be.kuleuven.hotelrestservice.entity.Hotel;
+import be.kuleuven.hotelrestservice.entity.Room;
+import be.kuleuven.hotelrestservice.enums.EReservationStatus;
 import be.kuleuven.hotelrestservice.entity.QReservation;
 import be.kuleuven.hotelrestservice.entity.Reservation;
-import be.kuleuven.hotelrestservice.enums.EReservationStatus;
+import be.kuleuven.hotelrestservice.enums.ERoomType;
 import be.kuleuven.hotelrestservice.repository.HotelRepository;
 import be.kuleuven.hotelrestservice.repository.ReservationRepository;
 import be.kuleuven.hotelrestservice.security.jwt.JwtUtils;
@@ -47,10 +49,14 @@ public class ReservationsService {
 
         return reservation.map(res -> ReservationResponseDto.builder()
                 .packageBookingId(res.getPackageBookingId())
+                .hotelId(res.getHotelId())
+                .fromDate(res.getFromDate())
+                .toDate(res.getToDate())
                 .status(res.getStatus())
                 .numAdults(res.getNumAdults())
                 .numChildren(res.getNumChildren())
                 .totalPrice(res.getTotalPrice())
+                .roomType(res.getRoomType())
                 .build());
     }
 
@@ -84,6 +90,7 @@ public class ReservationsService {
                 res.setNumChildren(request.getNumChildren());
                 res.setTotalPrice(totalPrice);
                 res.setStatus(EReservationStatus.RESERVATION_STATUS_CONFIRMED);
+                res.setRoomType(ERoomType.Deluxe);
 
                 reservationRepository.save(res);
 

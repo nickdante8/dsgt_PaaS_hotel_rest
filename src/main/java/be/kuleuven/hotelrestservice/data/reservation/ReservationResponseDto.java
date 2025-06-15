@@ -1,6 +1,8 @@
 package be.kuleuven.hotelrestservice.data.reservation;
+
 import be.kuleuven.hotelrestservice.data.visitor.VisitorResponseDto;
 import be.kuleuven.hotelrestservice.enums.EReservationStatus;
+import be.kuleuven.hotelrestservice.enums.ERoomType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -23,5 +25,6 @@ public class ReservationResponseDto {
     private BigDecimal totalPrice;
     private Integer numAdults;
     private Integer numChildren;
+    private ERoomType roomType;
     private List<VisitorResponseDto> visitors;
 }

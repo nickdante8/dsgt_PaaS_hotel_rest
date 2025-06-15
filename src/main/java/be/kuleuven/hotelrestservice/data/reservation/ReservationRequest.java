@@ -1,5 +1,6 @@
 package be.kuleuven.hotelrestservice.data.reservation;
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public class ReservationRequest {
     private LocalDateTime toDate;
     private Integer numAdults;
     private Integer numChildren;
-
+    private String type;
 }

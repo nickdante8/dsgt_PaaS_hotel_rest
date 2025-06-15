@@ -80,7 +80,7 @@ public class HotelsService {
                 .breakfast(hotel.isBreakfast())
                 .rooms(hotel.getRooms().stream()
                         .map(room -> RoomResponse.builder()
-                                .id(String.valueOf(room.getRoomId()))
+                                .id(String.valueOf(room.getId()))
                                 .type(room.getType())
                                 .build())
                         .collect(Collectors.toList()))

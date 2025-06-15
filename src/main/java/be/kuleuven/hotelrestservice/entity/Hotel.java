@@ -18,10 +18,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "hotels")
-public class Hotel{
+public class Hotel {
     @Id
     @NotBlank
-    private String id;
+    private Integer id;
 
     @NotBlank
     @Column(name = "hotel_name")
@@ -45,7 +45,7 @@ public class Hotel{
 
     @NotBlank
     @Column(name = "available_rooms")
-    private int  availableRooms;
+    private int availableRooms;
 
     @NotBlank
     @Column(name = "total_rooms")
@@ -60,7 +60,7 @@ public class Hotel{
     private BigDecimal priceChild;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable( name = "hotels_rooms",
+    @JoinTable(name = "hotels_rooms",
             joinColumns = @JoinColumn(name = "hotel_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )

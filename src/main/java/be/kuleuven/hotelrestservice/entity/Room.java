@@ -20,17 +20,17 @@ import java.time.LocalDateTime;
 public class Room extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private EnumType type;
+    private ERoomType type;
 
     @NotBlank
     @Column(name = "price")
     private BigDecimal price;
 
-    @NotBlank
+//    @NotBlank
     @Column(name = "from_date")
     private LocalDateTime fromDate;
 
-    @NotBlank
+//    @NotBlank
     @Column(name = "to_date")
     private LocalDateTime toDate;
 
@@ -40,7 +40,7 @@ public class Room extends AbstractEntity {
 
     @NotBlank
     @Column(name = "hotel_id", insertable=false, updatable=false)
-    private String hotelId;
+    private Integer hotelId;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")

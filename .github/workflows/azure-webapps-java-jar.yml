@@ -54,11 +54,10 @@ jobs:
           # ====================
           # JPA for DB configuration
           # ====================
-          spring.jpa.properties.hibernate.dialect = ${{ vars.AZURE_WEBAPP_DB_HIBERNATE_DIALECT }}
+          spring.datasource.hikari.jdbc-url=${{ secrets.AZURE_WEBAPP_DB_URL }}
           spring.datasource.url=${{ secrets.AZURE_WEBAPP_DB_URL }}
           spring.datasource.username=${{ secrets.AZURE_WEBAPP_DB_USERNAME }}
           spring.datasource.password=${{ secrets.AZURE_WEBAPP_DB_PASSWORD }}
-          spring.datasource.driver-class-name=${{ vars.AZURE_WEBAPP_DB_DRIVER }}
           spring.jpa.hibernate.ddl-auto=update
           spring.jpa.show-sql=true
           EOF

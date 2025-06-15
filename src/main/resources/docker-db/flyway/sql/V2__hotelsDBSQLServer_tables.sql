@@ -29,7 +29,7 @@ CREATE TABLE users
 IF OBJECT_ID('hotels', 'U') IS NULL
 CREATE TABLE hotels
 (
-    id                  NVARCHAR(255) NOT NULL,
+    id                  INT NOT NULL, -- (255) NOT NULL,
     hotel_name          NVARCHAR(255) NOT NULL,
     location            NVARCHAR(255) NOT NULL,
     room_service        BIT NOT NULL,
@@ -46,12 +46,13 @@ IF OBJECT_ID('rooms', 'U') IS NULL
 CREATE TABLE rooms
 (
     id          BIGINT, --IDENTITY(1,1) NOT NULL,
-    hotel_id    NVARCHAR(255) NOT NULL,
-    type        NVARCHAR(25) NOT NULL CHECK (type IN('NUMBER_TYPE_SUIT',
-    'NUMBER_TYPE_SINGLE', 'NUMBER_TYPE_DOUBLE')),
+    hotel_id    INT NOT NULL,  --NVARCHAR(255) NOT NULL,
+    type        NVARCHAR(25) NOT NULL CHECK (type IN('Suite', 'Standard',
+                                                     'Deluxe', 'Economy',
+                                                     'Family', 'Executive')),
     price       DECIMAL(10, 2) NOT NULL,
-    from_date   DATETIME2 NOT NULL,
-    to_date     DATETIME2 NOT NULL,
+    from_date   DATETIME2, --NOT NULL,
+    to_date     DATETIME2, -- NOT NULL,
     is_available   BIT NOT NULL,
     CONSTRAINT pk_rooms PRIMARY KEY (id)
 );
@@ -63,7 +64,7 @@ CREATE TABLE reservations
     id                  BIGINT IDENTITY(1,1) NOT NULL,
     package_booking_id  NVARCHAR(255) NOT NULL,
     user_id             NVARCHAR(255) NOT NULL,
-    hotel_id            NVARCHAR(255) NOT NULL,
+    hotel_id            INT NOT NULL, -- (255) NOT NULL,
     from_date           DATETIME2 NOT NULL,
     to_date             DATETIME2 NOT NULL,
     num_adults          INT NOT NULL,

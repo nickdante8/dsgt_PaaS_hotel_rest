@@ -33,7 +33,7 @@ public class Reservation extends AbstractEntity {
 
     @NotBlank
     @Column(name = "hotel_id", insertable=false, updatable=false)
-    private String hotelId;
+    private Integer hotelId;
 
     @NotBlank
     @Column(name = "from_date")

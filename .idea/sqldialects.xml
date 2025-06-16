@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/resources/docker-db/flyway/sql/V1__hotelsDBSQLServer_create.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/docker-db/flyway/sql/V2__hotelsDBSQLServer_tables.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/docker-db/flyway/sql/V4__hotelsDBSQLServer_insert_hotels.sql" dialect="TSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/docker-db/flyway/sql/V5__hotelsDBSQLServer_insert_rooms.sql" dialect="TSQL" />
-  </component>
-</project>

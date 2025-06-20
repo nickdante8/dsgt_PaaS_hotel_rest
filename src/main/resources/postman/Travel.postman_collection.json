@@ -91,7 +91,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"flightArrivalId\": \"FL012\",\r\n  \"flightDepartureId\": \"FL011\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 1\r\n//   \"passangers\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1978-01-30\",\r\n//       \"seat\": \"1A\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Jullieta\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1980-01-15\",\r\n//       \"seat\": \"1B\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_32KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Junior\",\r\n//       \"secondName\": \"Constantin\",\r\n//       \"birthDate\": \"2000-05-22\",\r\n//       \"seat\": \"1C\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
+							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"flightArrivalId\": \"FL011\",\r\n  \"flightDepartureId\": \"FL012\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 1\r\n//   \"passangers\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1978-01-30\",\r\n//       \"seat\": \"1A\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Jullieta\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1980-01-15\",\r\n//       \"seat\": \"1B\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_32KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Junior\",\r\n//       \"secondName\": \"Constantin\",\r\n//       \"birthDate\": \"2000-05-22\",\r\n//       \"seat\": \"1C\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -169,7 +169,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"contact@travelGo.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -223,7 +223,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"tripBroker\",\r\n    \"password\": \"test12345678\"\r\n}",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"password\": \"test12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,6 +282,148 @@
 			"name": "Hotel",
 			"item": [
 				{
+					"name": "Hotel By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Hotel-URL}}/api/hotels/1",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"hotels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hotels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&checkInDate=\"2025-08-05\"&checkOutDate=\"2025-08-16\"&room0Adults=2&room0Children=1&room1Adults=2&room1Children=0",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "arrivalLocation",
+									"value": "\"New York\""
+								},
+								{
+									"key": "checkInDate",
+									"value": "\"2025-08-05\""
+								},
+								{
+									"key": "checkOutDate",
+									"value": "\"2025-08-16\""
+								},
+								{
+									"key": "room0Adults",
+									"value": "2"
+								},
+								{
+									"key": "room0Children",
+									"value": "1"
+								},
+								{
+									"key": "room1Adults",
+									"value": "2"
+								},
+								{
+									"key": "room1Children",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"hotelId\": \"1\",\r\n  \"checkInDate\": \"2025-06-15\",\r\n  \"checkOutDate\": \"2025-06-17\",\r\n  \"roomType\": \"Deluxe\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 2\r\n//   \"visitors\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Hotel-URL}}/api/bookings",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Hotel-URL}}/api/bookings/BK001",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"BK001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking Cancel By Id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Hotel-URL}}/api/bookings/cancel/BK001",
+							"host": [
+								"{{Hotel-URL}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"cancel",
+								"BK001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Sign_Up",
 					"request": {
 						"auth": {
@@ -291,7 +433,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"tripBroker\",\r\n    \"email\": \"nicolae.butnari@student.kuleuven.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
+							"raw": "{\r\n    \"username\": \"travelGo\",\r\n    \"email\": \"contact@travelGo.be\",\r\n    \"password\": \"test12345678\",\r\n    \"role\": [\"admin\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -365,73 +507,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Hotel By Id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels/HT001",
-							"host": [
-								"{{Hotel-URL}}"
-							],
-							"path": [
-								"api",
-								"hotels",
-								"HT001"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Hotels",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&checkInDate=\"2025-08-05\"&checkOutDate=\"2025-08-05\"&roomAdult0=2&roomAdul1=1&adults=4&children=1",
-							"host": [
-								"{{Hotel-URL}}"
-							],
-							"path": [
-								"api",
-								"hotels"
-							],
-							"query": [
-								{
-									"key": "arrivalLocation",
-									"value": "\"New York\""
-								},
-								{
-									"key": "checkInDate",
-									"value": "\"2025-08-05\""
-								},
-								{
-									"key": "checkOutDate",
-									"value": "\"2025-08-05\""
-								},
-								{
-									"key": "roomAdult0",
-									"value": "2"
-								},
-								{
-									"key": "roomAdul1",
-									"value": "1"
-								},
-								{
-									"key": "adults",
-									"value": "4"
-								},
-								{
-									"key": "children",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			],
 			"auth": {
@@ -493,12 +568,12 @@
 	"variable": [
 		{
 			"key": "Flight-URL",
-			"value": "http://localhost:8090",
+			"value": "http://lbungygum-ro.japaneast.cloudapp.azure.com:8090",
 			"type": "default"
 		},
 		{
 			"key": "Hotel-URL",
-			"value": "http://localhost:8100",
+			"value": "http://dists.northeurope.cloudapp.azure.com:8100",
 			"type": "string"
 		},
 		{

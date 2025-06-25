@@ -26,26 +26,33 @@ public class HotelController {
 
     @GetMapping
     public ResponseEntity<List<HotelResponse>> getHotels(
-            @RequestParam(name = "location", required = false) String location,
-            @RequestParam(name = "fromDate", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-            @RequestParam(name = "toDate", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
-            @RequestParam(name = "adultCount", required = false, defaultValue = "1") Integer adultCount,
-            @RequestParam(name = "childCount", required = false, defaultValue = "0") Integer childCount
+            @RequestParam(name = "arrivalLocation")
+            String arrivalLocation,
+            @RequestParam(name = "checkInDate")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate checkInDate,
+            @RequestParam(name = "checkOutDate")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate checkOutDate,
+            @RequestParam(name = "numberOfRooms")
+            Integer numberOfRooms,
+            @RequestParam(name = "numberOfAdults")
+            Integer numberOfAdults,
+            @RequestParam(name = "numberOfChildren")
+            Integer numberOfChildren
     ) {
-        List<HotelResponse> hotels = hotelsService.getAllHotels(location, fromDate, toDate, adultCount, childCount);
+        List<HotelResponse> hotels = hotelsService.getAllHotels(arrivalLocation, checkInDate, checkOutDate, numberOfRooms, numberOfAdults, numberOfChildren);
 
         if (hotels.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(hotels);
+        return ResponseEntity.status(HttpStatus.OK).body(hotels);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HotelResponseDto> getHotelById(@PathVariable("id") Long id) {
-        return hotelsService.findHotelById(Math.toIntExact(id))
+    public ResponseEntity<HotelResponseDto> getHotelById(@PathVariable("id") String id) {
+        return hotelsService.findHotelById(id)
                 .map(hotel -> new ResponseEntity<>(hotel, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

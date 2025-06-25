@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 public class HotelResponseDto {
-    private Integer id;
+    private String id;
     private String hotelName;
     private String location;
     private Boolean roomService;

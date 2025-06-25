@@ -40,7 +40,7 @@ public class User {
 
   @OneToMany
   @JoinColumn(name="user_id", referencedColumnName = "id")
-  private List<Reservation> reservations;
+  private List<Booking> bookings;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 

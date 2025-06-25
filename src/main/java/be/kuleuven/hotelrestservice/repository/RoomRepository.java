@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, String>, QuerydslPredicateExecutor<Room> {
-    List<Room> findByHotelId(Integer hotelId);
+    List<Room> findByHotelId(String hotelId);
 }

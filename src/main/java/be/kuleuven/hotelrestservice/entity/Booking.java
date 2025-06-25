@@ -4,6 +4,7 @@ import be.kuleuven.hotelrestservice.enums.EBookingStatus;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -30,23 +31,23 @@ public class Booking extends AbstractEntity {
     @Column(name = "flight_id", insertable=false, updatable=false)
     private String flightId;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_seat_count")
     private Integer totalSeatCount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "adult_seat_count")
     private Integer adultSeatCount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "child_seat_count")
     private Integer childSeatCount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "infant_seat_count")
     private Integer infantSeatCount;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 

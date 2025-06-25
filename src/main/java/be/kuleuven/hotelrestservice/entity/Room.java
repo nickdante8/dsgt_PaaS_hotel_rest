@@ -3,6 +3,7 @@ import be.kuleuven.hotelrestservice.enums.ERoomType;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class Room extends AbstractEntity {
     @Column(name = "type")
     private ERoomType type;
 
-    @NotBlank
+    @NotNull
     @Column(name = "price")
     private BigDecimal price;
 
@@ -34,11 +35,11 @@ public class Room extends AbstractEntity {
     @Column(name = "to_date")
     private LocalDateTime toDate;
 
-    @NotBlank
-    @Column(name = "is_available")
-    private boolean is_available;
 
-    @NotBlank
+    @Column(name = "is_available")
+    private Boolean is_available;
+
+    @NotNull
     @Column(name = "hotel_id", insertable=false, updatable=false)
     private Integer hotelId;
 

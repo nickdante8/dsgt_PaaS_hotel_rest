@@ -4,6 +4,7 @@ import be.kuleuven.hotelrestservice.enums.ESexType;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -34,7 +35,7 @@ public class Visitor extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank
+    @NotNull
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
@@ -43,11 +44,11 @@ public class Visitor extends AbstractEntity {
     @Column(name = "sex_type")
     private ESexType sexType;
 
-    @NotBlank
+    @NotNull
     @Column(name = "room_id", insertable=false, updatable=false)
     private Integer room_id;
 
-    @NotBlank
+    @NotNull
     @Column(name = "reservation_id", insertable=false, updatable=false)
     private Long reservationID;
 

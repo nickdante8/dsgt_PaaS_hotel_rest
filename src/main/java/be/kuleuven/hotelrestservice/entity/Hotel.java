@@ -6,6 +6,7 @@
 package be.kuleuven.hotelrestservice.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 @Table(name = "hotels")
 public class Hotel {
     @Id
-    @NotBlank
+    @NotNull
     private Integer id;
 
     @NotBlank
@@ -31,31 +32,29 @@ public class Hotel {
     @Column(name = "location")
     private String location;
 
-    @NotBlank
     @Column(name = "room_service")
-    private boolean roomService;
+    private Boolean roomService;
 
-    @NotBlank
     @Column(name = "breakfast")
-    private boolean breakfast;
+    private Boolean breakfast;
 
-    @NotBlank
+    @NotNull
     @Column(name = "number_of_stars")
-    private int numberOfStars;
+    private Integer numberOfStars;
 
-    @NotBlank
+    @NotNull
     @Column(name = "available_rooms")
-    private int availableRooms;
+    private Integer availableRooms;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_rooms")
-    private int totalRooms;
+    private Integer totalRooms;
 
-    @NotBlank
+    @NotNull
     @Column(name = "price_adult")
     private BigDecimal priceAdult;
 
-    @NotBlank
+    @NotNull
     @Column(name = "price_child")
     private BigDecimal priceChild;
 

@@ -66,7 +66,7 @@ public class HotelsService {
     public Optional<HotelResponseDto> findHotelById(Integer id) {
         Assert.notNull(id, "Hotel ID must not be null");
 
-        return hotelRepository.findById(String.valueOf(id)).map(hotel -> HotelResponseDto.builder()
+        return hotelRepository.findById(id).map(hotel -> HotelResponseDto.builder()
 //                return hotelRepository.findById(id).map(hotel -> HotelResponseDto.builder()
                 .id(hotel.getId())
                 .hotelName(hotel.getHotelName())

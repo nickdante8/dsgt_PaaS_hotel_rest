@@ -8,6 +8,7 @@ import be.kuleuven.hotelrestservice.enums.EReservationStatus;
 import be.kuleuven.hotelrestservice.enums.ERoomType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -31,27 +32,27 @@ public class Reservation extends AbstractEntity {
     @Column(name = "user_id")
     private String userId; // agency or travel agent
 
-    @NotBlank
+    @NotNull
     @Column(name = "hotel_id", insertable=false, updatable=false)
     private Integer hotelId;
 
-    @NotBlank
+    @NotNull
     @Column(name = "from_date")
     private LocalDateTime fromDate;
 
-    @NotBlank
+    @NotNull
     @Column(name = "to_date")
     private LocalDateTime toDate;
 
-    @NotBlank
+    @NotNull
     @Column(name = "num_adults")
-    private int numAdults;
+    private Integer numAdults;
 
-    @NotBlank
+    @NotNull
     @Column(name = "num_children")
-    private int numChildren;
+    private Integer numChildren;
 
-    @NotBlank
+    @NotNull
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 

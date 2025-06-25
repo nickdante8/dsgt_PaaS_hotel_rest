@@ -19,6 +19,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "rooms")
 public class Room extends AbstractEntity {
+    @NotNull
+    @Column(name = "hotel_id", insertable=false, updatable=false)
+    private String hotelId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private ERoomType type;
@@ -27,24 +31,19 @@ public class Room extends AbstractEntity {
     @Column(name = "price")
     private BigDecimal price;
 
-//    @NotBlank
+    @NotNull
     @Column(name = "from_date")
     private LocalDateTime fromDate;
 
-//    @NotBlank
+    @NotNull
     @Column(name = "to_date")
     private LocalDateTime toDate;
 
-
-    @Column(name = "is_available")
-    private Boolean is_available;
-
     @NotNull
-    @Column(name = "hotel_id", insertable=false, updatable=false)
-    private Integer hotelId;
+    @Column(name = "is_available")
+    private Boolean isAvailable;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", referencedColumnName = "id")
     private Hotel hotel;
-
 }

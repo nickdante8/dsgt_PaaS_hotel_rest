@@ -14,7 +14,7 @@ public class RoomsService {
     private final RoomRepository roomsRepository;
 
     public List<RoomResponse> getRoomsByHotelId(String hotelId) {
-        return roomsRepository.findByHotelId(Integer.valueOf(hotelId)).stream()
+        return roomsRepository.findByHotelId(hotelId).stream()
                 .map(room -> RoomResponse.builder()
                         .id(String.valueOf(room.getId()))
                         //.id(seat.getId())

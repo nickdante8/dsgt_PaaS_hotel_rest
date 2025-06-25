@@ -34,5 +34,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### venv ###
+.hotel_venv/
+
 ### Mac OS ###
 .DS_Store

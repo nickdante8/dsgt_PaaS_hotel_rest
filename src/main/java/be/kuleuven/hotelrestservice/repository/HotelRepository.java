@@ -6,5 +6,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HotelRepository extends JpaRepository<Hotel, Integer>, QuerydslPredicateExecutor<Hotel> {
+public interface HotelRepository extends JpaRepository<Hotel, String>, QuerydslPredicateExecutor<Hotel> {
 }

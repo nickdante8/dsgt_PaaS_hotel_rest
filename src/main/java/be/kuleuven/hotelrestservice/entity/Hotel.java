@@ -21,8 +21,8 @@ import java.util.Set;
 @Table(name = "hotels")
 public class Hotel {
     @Id
-    @NotNull
-    private Integer id;
+    @NotBlank
+    private String id;
 
     @NotBlank
     @Column(name = "hotel_name")
@@ -32,9 +32,11 @@ public class Hotel {
     @Column(name = "location")
     private String location;
 
+    @NotNull
     @Column(name = "room_service")
     private Boolean roomService;
 
+    @NotNull
     @Column(name = "breakfast")
     private Boolean breakfast;
 
@@ -58,10 +60,6 @@ public class Hotel {
     @Column(name = "price_child")
     private BigDecimal priceChild;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "hotels_rooms",
-            joinColumns = @JoinColumn(name = "hotel_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id")
-    )
+    @OneToMany(mappedBy = "hotel")
     private Set<Room> rooms = new HashSet<>();
 }

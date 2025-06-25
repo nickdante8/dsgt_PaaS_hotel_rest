@@ -35,7 +35,9 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "",
@@ -91,7 +93,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"flightArrivalId\": \"FL011\",\r\n  \"flightDepartureId\": \"FL012\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 1\r\n//   \"passangers\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1978-01-30\",\r\n//       \"seat\": \"1A\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Jullieta\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"1980-01-15\",\r\n//       \"seat\": \"1B\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_32KG\"\r\n//       ],\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"Junior\",\r\n//       \"secondName\": \"Constantin\",\r\n//       \"birthDate\": \"2000-05-22\",\r\n//       \"seat\": \"1C\",\r\n//       \"baggages\": [\r\n//         \"BAGGAGE_TYPE_20KG\"\r\n//       ],\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
+							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"flightArrivalId\": \"FL011\",\r\n  \"flightDepartureId\": \"FL012\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 1,\r\n  \"passangers\": [\r\n    {\r\n      \"firstName\": \"John\",\r\n      \"secondName\": \"Wick\",\r\n      \"birthDate\": \"1978-01-30\",\r\n      \"seat\": \"1A\",\r\n      \"baggages\": [\r\n        \"BAGGAGE_TYPE_20KG\"\r\n      ],\r\n      \"type\": \"adult\"\r\n    },\r\n    {\r\n      \"firstName\": \"Jullieta\",\r\n      \"secondName\": \"Wick\",\r\n      \"birthDate\": \"1980-01-15\",\r\n      \"seat\": \"1B\",\r\n      \"baggages\": [\r\n        \"BAGGAGE_TYPE_32KG\"\r\n      ],\r\n      \"type\": \"adult\"\r\n    },\r\n    {\r\n      \"firstName\": \"Junior\",\r\n      \"secondName\": \"Constantin\",\r\n      \"birthDate\": \"2000-05-22\",\r\n      \"seat\": \"1C\",\r\n      \"baggages\": [\r\n        \"BAGGAGE_TYPE_20KG\"\r\n      ],\r\n      \"type\": \"child\"\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -287,14 +289,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels/1",
+							"raw": "{{Hotel-URL}}/api/hotels/HT001",
 							"host": [
 								"{{Hotel-URL}}"
 							],
 							"path": [
 								"api",
 								"hotels",
-								"1"
+								"HT001"
 							]
 						}
 					},
@@ -306,7 +308,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&checkInDate=\"2025-08-05\"&checkOutDate=\"2025-08-16\"&room0Adults=2&room0Children=1&room1Adults=2&room1Children=0",
+							"raw": "{{Hotel-URL}}/api/hotels?arrivalLocation=\"New York\"&checkInDate=2025-08-05&checkOutDate=2025-08-15&numberOfRooms=5&numberOfAdults=4&numberOfChildren=1",
 							"host": [
 								"{{Hotel-URL}}"
 							],
@@ -321,27 +323,23 @@
 								},
 								{
 									"key": "checkInDate",
-									"value": "\"2025-08-05\""
+									"value": "2025-08-05"
 								},
 								{
 									"key": "checkOutDate",
-									"value": "\"2025-08-16\""
+									"value": "2025-08-15"
 								},
 								{
-									"key": "room0Adults",
-									"value": "2"
+									"key": "numberOfRooms",
+									"value": "5"
 								},
 								{
-									"key": "room0Children",
+									"key": "numberOfAdults",
+									"value": "4"
+								},
+								{
+									"key": "numberOfChildren",
 									"value": "1"
-								},
-								{
-									"key": "room1Adults",
-									"value": "2"
-								},
-								{
-									"key": "room1Children",
-									"value": "0"
 								}
 							]
 						}
@@ -355,7 +353,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"hotelId\": \"1\",\r\n  \"checkInDate\": \"2025-06-15\",\r\n  \"checkOutDate\": \"2025-06-17\",\r\n  \"roomType\": \"Deluxe\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 2\r\n//   \"visitors\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
+							"raw": "{\r\n  \"packageBookingId\": \"BK001\",\r\n  \"hotelId\": \"HT001\",\r\n  \"checkInDate\": \"2025-08-05\",\r\n  \"checkOutDate\": \"2025-08-15\",\r\n  \"roomType\": \"Deluxe\",\r\n  \"adultCount\": 2,\r\n  \"childCount\": 2\r\n//   \"visitors\": [\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"adult\"\r\n//     },\r\n//     {\r\n//       \"firstName\": \"John\",\r\n//       \"secondName\": \"Wick\",\r\n//       \"birthDate\": \"mm-dd-yyyy\",\r\n//       \"sexType\": \"M\",\r\n//       \"type\": \"child\"\r\n//     }\r\n//   ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

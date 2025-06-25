@@ -8,9 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -46,7 +44,7 @@ public class Visitor extends AbstractEntity {
 
     @NotNull
     @Column(name = "room_id", insertable=false, updatable=false)
-    private Integer room_id;
+    private Integer roomId;
 
     @NotNull
     @Column(name = "reservation_id", insertable=false, updatable=false)
@@ -58,10 +56,5 @@ public class Visitor extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name="reservation_id", referencedColumnName = "id")
-    private Reservation reservations;
-//
-//    @ManyToOne
-//    @JoinColumn(name="hotel_id", referencedColumnName = "id")
-//    private Hotel hotels;
-
+    private Booking bookings;
 }

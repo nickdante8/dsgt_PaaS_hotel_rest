@@ -7,63 +7,92 @@ import be.kuleuven.hotelrestservice.data.hotel.HotelResponseDto;
 import be.kuleuven.hotelrestservice.data.room.RoomResponse;
 import be.kuleuven.hotelrestservice.entity.Hotel;
 import be.kuleuven.hotelrestservice.entity.QHotel;
+import be.kuleuven.hotelrestservice.entity.QRoom;
 import be.kuleuven.hotelrestservice.repository.HotelRepository;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
 public class HotelsService {
 
+    private final JPAQueryFactory queryFactory;
     private final HotelRepository hotelRepository;
 
     public List<HotelResponse> getAllHotels(
-            String location,
+            String arrivalLocation,
             LocalDate checkInDate,
             LocalDate checkOutDate,
-            Integer adultCount,
-            Integer childCount) {
+            Integer numberOfRooms,
+            Integer numberOfAdults,
+            Integer numberOfChildren) {
 
-        BooleanBuilder builder = new BooleanBuilder();
-        QHotel qHotel = QHotel.hotel;
+        BooleanBuilder hotelBuilder = new BooleanBuilder();
+        BooleanBuilder roomBuilder = new BooleanBuilder();
+        QHotel hotels = QHotel.hotel;
+        QRoom rooms = QRoom.room;
 
-        if (location != null && !location.isBlank()) {
-            builder.and(qHotel.location.eq(location.trim()));
+        /* Construct arrival locations */
+        if (arrivalLocation != null && !arrivalLocation.isBlank()) {
+            hotelBuilder.and(hotels.location.eq(arrivalLocation.replaceAll("^\"|\"$", "").trim()));
         }
 
-        int totalGuests = (adultCount != null ? adultCount : 0) + (childCount != null ? childCount : 0);
-        if (totalGuests > 0) {
-            builder.and(qHotel.availableRooms.goe(1)); // You can enhance this to match rooms per guest
+        /* Check-in / Check-out Availability in Room */
+        if (checkInDate != null && checkOutDate != null) {
+            LocalDateTime checkIn = checkInDate.atStartOfDay();
+            LocalDateTime checkOut = checkOutDate.atTime(LocalTime.MAX);
+
+            roomBuilder.and(rooms.fromDate.goe(checkIn));
+            roomBuilder.and(rooms.toDate.loe(checkOut));
+            roomBuilder.and(rooms.isAvailable.isTrue());
         }
 
-        List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll(builder);
+        int totalGuests = (numberOfAdults != null ? numberOfAdults : 0) + (numberOfChildren != null ? numberOfChildren : 0);
+        if (numberOfRooms != null && numberOfRooms > 0) {
+            hotelBuilder.and(hotels.availableRooms.goe(numberOfRooms));
+        }
 
-        if (hotels.isEmpty()) return Collections.emptyList();
+        List<Hotel> hotelsList = queryFactory
+                .selectDistinct(hotels)
+                .from(hotels)
+                .leftJoin(hotels.rooms, rooms)
+                .where(hotelBuilder.and(roomBuilder))
+                .fetch();
 
-        return hotels.stream().map(hotel -> HotelResponse.builder()
+        if (hotelsList.isEmpty()) return Collections.emptyList();
+
+        return hotelsList.stream()
+                .map(hotel -> HotelResponse.builder()
 //                .id(String.valueOf(hotel.getId()))
                 .id(hotel.getId())
-                .hotelName(hotel.getHotelName())
+                .name(hotel.getHotelName())
                 .location(hotel.getLocation())
                 .numberOfStars(hotel.getNumberOfStars())
                 .availableRooms(hotel.getAvailableRooms())
                 .priceAdult(hotel.getPriceAdult())
                 .priceChild(hotel.getPriceChild())
-                .roomService(hotel.isRoomService())
-                .breakfast(hotel.isBreakfast())
-                .build()
-        ).collect(Collectors.toList());
+//                .roomService(hotel.isRoomService())
+//                .breakfast(hotel.isBreakfast())
+                .build())
+                .collect(Collectors.toList());
     }
 
-    public Optional<HotelResponseDto> findHotelById(Integer id) {
+    public Optional<HotelResponseDto> findHotelById(String id) {
         Assert.notNull(id, "Hotel ID must not be null");
 
         return hotelRepository.findById(id).map(hotel -> HotelResponseDto.builder()
@@ -76,8 +105,8 @@ public class HotelsService {
                 .totalRooms(hotel.getTotalRooms())
                 .priceAdult(hotel.getPriceAdult())
                 .priceChild(hotel.getPriceChild())
-                .roomService(hotel.isRoomService())
-                .breakfast(hotel.isBreakfast())
+//                .roomService(hotel.isRoomService())
+//                .breakfast(hotel.isBreakfast())
                 .rooms(hotel.getRooms().stream()
                         .map(room -> RoomResponse.builder()
                                 .id(String.valueOf(room.getId()))
